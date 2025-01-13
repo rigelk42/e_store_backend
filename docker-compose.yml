@@ -1,0 +1,40 @@
+version: '3.8'
+
+services:
+  api:
+    build: .
+    container_name: ecommerce_api
+    restart: always
+    command: python3 manage.py runserver 0.0.0.0:8000
+    volumes:
+      - ./ecommerce_backend:/usr/src/app/
+    ports:
+      - 8000:8000
+    env_file:
+      - ./.env.dev
+  db:
+    image: postgres:17
+    container_name: ecommerce_db
+    volumes:
+      - ecommerce_data:/var/lib/postgresql/data
+    ports:
+      - 5432:5432
+    environment:
+      - POSTGRES_USER=ecommerce_db_dev
+      - POSTGRES_PASSWORD=ecommerce_db_dev
+      - POSTGRES_DB=ecommerce_db_dev
+  pgadmin:
+    image: dpage/pgadmin4
+    container_name: ecommerce_pgadmin
+    restart: always
+    ports:
+      - "8888:80"
+    environment:
+      PGADMIN_DEFAULT_EMAIL: test@ecommerce.com
+      PGADMIN_DEFAULT_PASSWORD: abc123
+    volumes:
+      - pgadmin-data:/var/lib/pgadmin
+
+volumes:
+  ecommerce_data:
+  pgadmin-data:

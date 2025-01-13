@@ -1,0 +1,7 @@
+*.md
+tests/
+Dockerfile
+*.yml
+.editorconfig
+.git/
+.gitignore
