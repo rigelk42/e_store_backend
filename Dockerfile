@@ -1,17 +1,18 @@
-FROM python:3.10.12-alpine3.18
+FROM python:3.13.1-alpine3.21
 
 WORKDIR /usr/src/app
 
-ENV PYTHONDONTWRITEBYTECODE=1 \
-    PYTHONBUFFERED=1 \
-    PYTHONFAULTHANDLER=1 \
-    PYTHONHASHSEED=random \
-    PIP_NO_CACHE_DIR=off \
-    PIP_DISABLE_PIP_VERSION_CHECK=on \
-    PIP_DEFAULT_TIMEOUT=100
+ENV PYTHONDONTWRITEBYTECODE=1
+ENV PYTHONBUFFERED=1
 
 RUN pip install --upgrade pip
 COPY ./requirements.txt .
 RUN pip install -r requirements.txt
 
+# COPY ./entrypoint.sh .
+# RUN sed -i 's/\r$//g' ./entrypoint.sh
+# RUN chmod +x ./entrypoint.sh
+
 COPY . .
+
+# ENTRYPOINT [ "./entrypoint.sh" ]
